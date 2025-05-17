@@ -1,0 +1,24 @@
+@import "tailwindcss";
+@plugin "daisyui" {
+  themes: winter;
+}
+
+body {
+  @apply bg-base-200;
+}
+
+.main-div {
+  min-height: 100vh;
+}
+
+.c{
+ @apply border border-base-content/20 card p-4 shadow bg-base-100;
+}
+
+.i {
+  @apply input w-full input w-full;
+}
+
+.b {
+  @apply btn w-full btn-info
+}
