@@ -1,3 +1,4 @@
+DROP DATABASE IF EXISTS Smart_inventory_task_management_db;
 CREATE DATABASE Smart_inventory_task_management_db;
 
 USE Smart_inventory_task_management_db;
