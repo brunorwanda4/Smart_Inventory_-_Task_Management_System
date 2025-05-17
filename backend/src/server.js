@@ -89,5 +89,56 @@ app.get("/api/users", (req, res) => {
   });
 });
 
+const jwt = require("jsonwebtoken");
+
+app.post("api/users/login", (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ message: "email and password are required" });
+  }
+
+  db.query("SELECT * FROM users WHERE email = ?", [email], (getErr, getRes) => {
+    if (getErr)
+      return res
+        .status(500)
+        .json({ message: "get user error", error: getErr.message });
+
+    if (getRes.length === 0) {
+      return res.status(404).json({ message: "User not found by email" });
+    }
+    const user = getRes[0];
+
+    bcrypt.compare(password, user.password, (compareErr, compareRes) => {
+      if (compareErr) {
+        return res.status(500).json({
+          message: "error to compare password",
+          error: compareErr.message,
+        });
+      }
+
+      if (compareRes) {
+        const token = jwt.sign(
+          {
+            name: user.name,
+            email: user.email,
+            role: user.role,
+          },
+          "I LOVE  MY MAMA", // secret KEY
+          { expiresIn: "1day" }
+        );
+
+        delete user.password;
+
+        return res.status(200).json({
+          user: user,
+          token,
+        });
+      } else {
+        return res.status(400).json({ message: "password are not match" });
+      }
+    });
+  });
+});
 
 app.listen(3011, () => console.log("Server is run on port 3011"));
