@@ -10,7 +10,7 @@ app.use(express.json());
 const db = mysql.createConnection({
   user: "root",
   password: "",
-  database: "",
+  database: "Smart_inventory_task_management_db",
   host: "localhost",
 });
 
@@ -20,9 +20,11 @@ db.connect((e) => {
 });
 
 app.get("/", (req, res) => {
-  return res.status(200).json({
-    message: "I Love my MAMA 🌼👻",
-  });
+  return res.status(200).json({ message: "I Love my MAMA 🌼👻" });
 });
+
+// ----------------- users  ---------------------------
+
+// app.post("");
 
 app.listen(3011, () => console.log("Server is run on port 3011"));
